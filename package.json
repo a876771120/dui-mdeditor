@@ -48,7 +48,8 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "codemirror": "^5.48.4",
+    "@types/jquery": "^3.3.31",
+    "codemirror": "^5.49.0",
     "crel": "^4.0.1"
   }
 }

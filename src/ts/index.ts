@@ -1,9 +1,16 @@
 import { getMdEditorPath } from "./utils";
-import EditorViews from "./view";
-
+import EditorViews from "./view/editorview";
 class duiMdEditor {
-    constructor(EditorViews:EditorViews) {
-        
+    // 编辑区实例
+    EditorView:EditorViews
+    /**
+     * 初始化方法
+     * @param EditorViews 编辑区实例
+     * @param options 额外参数
+     */
+    constructor(EditorViews:EditorViews,options?) {
+        this.EditorView = EditorViews;
+
     }
 }
 
@@ -12,8 +19,7 @@ namespace duiMdEditor{
     export let path = getMdEditorPath();
     export let EditorView = EditorViews;
     export let create = function(el,options){
-        let EditorView = new EditorViews(el,options)
-        return EditorView;
+        return new duiMdEditor(new EditorViews(el,options));
     }
 }
 export default duiMdEditor;

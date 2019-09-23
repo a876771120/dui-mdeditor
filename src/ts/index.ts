@@ -18,8 +18,5 @@ namespace duiMdEditor{
     export let version = '1.0.0';
     export let path = getMdEditorPath();
     export let EditorView = EditorViews;
-    export let create = function(el,options){
-        return new duiMdEditor(new EditorViews(el,options));
-    }
 }
 export default duiMdEditor;

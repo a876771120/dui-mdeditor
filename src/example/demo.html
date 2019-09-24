@@ -13,7 +13,9 @@
     <script src="/js/dui-mdeditor.min.js"></script>
     <script>
         console.log(dui);
-        var editor = dui.mdeditor.create('#ceshi');
+        var editor = dui.mdeditor.create({
+            el:'#ceshi'
+        });
         console.log(editor);
     </script>
 </body>

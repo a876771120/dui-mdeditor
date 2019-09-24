@@ -442,8 +442,8 @@ textarea {
     opacity: 1;
   }
 }
-// mdEditor容器
-@include b(mdeditor) {
+// editor容器
+@include b(editor) {
   position: relative;
   border-radius: $--border-radius-base;
   background: #fff;
@@ -516,11 +516,11 @@ textarea {
         background: #e5e5e5;
       }
       &.is-hover {
-        > span.#{$namespace}-mdeditor__toolbar-tip {
+        > span.#{$namespace}-editor__toolbar-tip {
           display: block;
         }
       }
-      > span.#{$namespace}-mdeditor__toolbar-tip {
+      > span.#{$namespace}-editor__toolbar-tip {
         user-select: none;
         position: absolute;
         animation-duration: 0.3s;
@@ -555,6 +555,34 @@ textarea {
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    &.preview-selected {
+      .#{$namespace}-editor__edit{
+        transition: all 0.2s linear 0s;
+        flex: 0 0 0%;
+        width: 0%;
+        border-right: none;
+        & + .#{$namespace}-editor__show {
+          transition: all 0.2s linear 0s;
+          flex: 0 0 100%;
+          width: 100%;
+          border-left: $--border-base;
+        }
+      }
+    }
+    &.subfield-selected.preview-selected {
+      .#{$namespace}-editor__edit{
+        transition: all 0.2s linear 0s;
+        flex: 0 0 50%;
+        width: 50%;
+        border-right: $--border-base;
+        & + .#{$namespace}-editor__show {
+          transition: all 0.2s linear 0s;
+          flex: 0 0 50%;
+          width: 50%;
+          border-left: none;
+        }
+      }
+    }
   }
   @include e(edit) {
     flex: 0 0 100%;
@@ -563,30 +591,6 @@ textarea {
     box-sizing: border-box;
     transition: all 0.2s linear 0s;
     cursor: text;
-    &.preview-selected {
-      transition: all 0.2s linear 0s;
-      flex: 0 0 0%;
-      width: 0%;
-      border-right: none;
-      & + .#{$namespace}-mdeditor__show {
-        transition: all 0.2s linear 0s;
-        flex: 0 0 100%;
-        width: 100%;
-        border-left: $--border-base;
-      }
-    }
-    &.subfield-selected.preview-selected {
-      transition: all 0.2s linear 0s;
-      flex: 0 0 50%;
-      width: 50%;
-      border-right: $--border-base;
-      & + .#{$namespace}-mdeditor__show {
-        transition: all 0.2s linear 0s;
-        flex: 0 0 50%;
-        width: 50%;
-        border-left: none;
-      }
-    }
   }
   @include e(show) {
     flex: 0 0 0%;
@@ -599,7 +603,7 @@ textarea {
     border-left: $--border-base;
     box-sizing: border-box;
   }
-  & .#{$namespace}-mdeditor__show {
+  & .#{$namespace}-editor__show {
     & > *:first-child {
       margin-top: 0 !important;
     }

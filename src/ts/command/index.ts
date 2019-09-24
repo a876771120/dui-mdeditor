@@ -1,8 +1,7 @@
 export class command {
     cm:any
-    manage:Map<String,Function>
-    constructor(cm) {
-        this.cm = cm;
+    manage:Map<String,Array<Function>>
+    constructor() {
         this.manage = new Map();
     }
     private init(){

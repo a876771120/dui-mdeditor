@@ -234,8 +234,8 @@ export function getSize(el){
         addCSSRule(document.styleSheets[0],'.getSizeByDisplay','display:block!important;visibility: hidden!important;')
         addClass(el,'getSizeByDisplay')
     }
-    let height = Number(el.offsetHeight);
-    let width =  Number(el.offsetWidth);
+    let height = parseFloat(el.offsetHeight);
+    let width =  parseFloat(el.offsetWidth);
     // 设置回原样式
     if(olddisplay==='none'){
         removeClass(el,'getSizeByDisplay');

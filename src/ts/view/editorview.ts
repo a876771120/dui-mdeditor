@@ -1,5 +1,4 @@
 import { extend } from "../utils"
-import { command } from "../command";
 import { getSize, addClass, setStyle, addCSSRule } from "../utils/dom";
 import crel from "crel";
 import CodeMirror from "codemirror";
@@ -27,7 +26,7 @@ export default class EditorView {
     /**
      * @param cm codemirror实例
      */
-    cm:any
+    cm:CodeMirror.EditorFromTextArea
     /**
      * @param mdEditorContainer 主体容器
      */
@@ -55,38 +54,9 @@ export default class EditorView {
      *  @param options.readmodel 沉浸阅读
      *  @param options.fullscreen 全屏编辑
      *  @param options.codemirrorConfig 编辑器配置
-     *  @param options.command 指令管理器
      */
     constructor(el:HTMLTextAreaElement,options:EditorViewConfig) {
-        this.config = extend(true,{
-            width:'100%',//初始宽度
-            height:'org',//初始高度
-            preview:true,//预览状态
-            subfield:true,//分栏初始状态
-            readmodel:false,//沉浸阅读
-            fullscreen:false,//全屏
-            catalog:false,//目录
-            codemirrorConfig:{
-                mode                      : 'gfm',
-                theme                     : 'default',
-                tabSize                   : 4,//一个table相当于移动多少字符
-                dragDrop                  : false,
-                autofocus                 : true,//是否在初始化时自动获取焦点
-                autoCloseTags             : true,//在键入' >'或' 时自动关闭XML标记
-                readOnly                  : false,//这会禁止用户编辑编辑器内容。如果"nocursor"给出特殊值（而不是简单true），则不允许对编辑器进行聚焦
-                indentUnit                : 4,//应该缩进一个块（无论编辑语言中的含义）多少个空格。默认值为2
-                lineNumbers               : true,//是否显示行数
-                lineWrapping              : true,//CodeMirror是否自动换行
-                extraKeys                 : '',
-                gutters                   : ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-                matchBrackets             : true,//括号匹配
-                indentWithTabs            : true,//在缩进时，是否需要把 n*tab宽度个空格替换成n个tab字符
-                styleActiveLine           : true,//当前行背景高亮
-                styleSelectedText         : true,//表示选中后文本颜色是否改变
-                autoCloseBrackets         : true,//自动闭合符号
-                showTrailingSpace         : true,//显示选中行的样式
-            }// 编辑器配置
-        },options);
+        this.config = options;
         // 设置原始元素
         this.original = el
         // 完全只读
@@ -202,7 +172,9 @@ export default class EditorView {
      * 初始化codemirror在线编辑器
      */
     private initCodemirror(){
+        // 显示编辑器
         this.cm = CodeMirror.fromTextArea(this.original,this.config.codemirrorConfig)
+
     }
 }
 export interface EditorViewConfig{
@@ -214,5 +186,4 @@ export interface EditorViewConfig{
     fullscreen?:Boolean 
     catalog?:Boolean 
     codemirrorConfig?:CodeMirror.EditorConfiguration 
-    command:command
 }

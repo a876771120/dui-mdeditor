@@ -139,20 +139,6 @@ function isPlainObject(obj){
 }
 
 /**
- * 判断是否是Array
- * @param {Object} obj 
- */
-function isArrayLike(obj) {
-	var length = !!obj && "length" in obj && obj.length,
-		thistype = type( obj );
-	if ( thistype === "function" || isWindow( obj ) ) {
-		return false;
-	}
-	return thistype === "array" || length === 0 ||
-		typeof length === "number" && length > 0 && ( length - 1 ) in obj;
-}
-
-/**
  * 深度复制
  * @param {Object} target 属性
  */
@@ -209,6 +195,20 @@ export function extend(target){
       }
     }
     return target;
+}
+
+/**
+ * 判断是否是Array
+ * @param {Object} obj 
+ */
+function isArrayLike(obj) {
+	var length = !!obj && "length" in obj && obj.length,
+		thistype = type( obj );
+	if ( thistype === "function" || isWindow( obj ) ) {
+		return false;
+	}
+	return thistype === "array" || length === 0 ||
+		typeof length === "number" && length > 0 && ( length - 1 ) in obj;
 }
 
 /**

@@ -1,5 +1,3 @@
-import { each } from ".";
-
 /* istanbul ignore next */
 const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
 const MOZ_HACK_REGEXP = /^moz([A-Z])/;
@@ -244,6 +242,7 @@ export function getSize(el){
     }
     return {height:height,width:width}
 }
+
 
 export function addCSSRule(sheet, selector, rules, index) {
     if("insertRule" in sheet) {

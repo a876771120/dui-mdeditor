@@ -1,9 +1,10 @@
 import { extend } from "../utils"
 import { getSize, addClass, setStyle, addCSSRule } from "../utils/dom";
-import crel from "crel";
+import crel from "../utils/crel";
 import CodeMirror from "codemirror";
 import "codemirror/mode/markdown/markdown";
 import "codemirror/mode/gfm/gfm";
+import "codemirror/addon/display/placeholder";
 export let classPrefix = 'dui-editor'
 export let guid = 1;
 export default class EditorView {
@@ -68,7 +69,7 @@ export default class EditorView {
         // 如果已经渲染需要回复到最初状态
         if(isRender){
             // 销毁
-            this.cm.toTextarea();
+            this.cm.toTextArea();
             // 把textarea复原位置
             this.mdEditorContainer.before(this.original);
             // 删除元素

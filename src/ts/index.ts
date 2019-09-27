@@ -127,6 +127,16 @@ class mdEditor {
      * 初始化工具栏
      */
     _initControlbar(){
+        let defaultItems = [
+            
+        ];
+
+
+
+
+
+
+
         
     }
     /**

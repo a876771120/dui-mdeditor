@@ -10,6 +10,8 @@ export class controlbar {
     buttonsRight:Array<button>
     constructor(edit:EditorView,options) {
         
+        
     }
+    
 }
 

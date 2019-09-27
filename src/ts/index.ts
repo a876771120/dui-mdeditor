@@ -2,7 +2,7 @@ import { getMdEditorPath, extend, each } from "./utils";
 import EditorView, { EditorViewConfig } from "./view/editorview";
 import CodeMirror from "codemirror"
 import { insetValue } from "./command";
-import { controlbar, buttonConfig } from "./controlbar";
+import { controlbar } from "./controlbar";
 class mdEditor {
     // 要实例化元素
     el:HTMLTextAreaElement
@@ -127,23 +127,7 @@ class mdEditor {
      * 初始化工具栏
      */
     _initControlbar(){
-        if(this.config.toolbar===false) return;
-        let _this = this,toolbar=this.config.toolbar || [];
-        let defaults = {
-            bold:{
-                name:'bold',
-                icon:'dui-icon-bold',
-                text:'',
-                handler:function(){
-                    _this.bold.call(_this,_this.editorView.cm);
-                }
-            } as buttonConfig
-        } as any;
-        let options = [];
-        each(toolbar,function(i,info){
-
-        })
-        this.controlbar = new controlbar(this.editorView,options.length==0?defaults:options);
+        
     }
     /**
      * 动态添加快捷键

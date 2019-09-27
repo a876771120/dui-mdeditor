@@ -465,6 +465,7 @@ textarea {
       vertical-align: middle;
       position: relative;
       &.is-hover,
+      &:hover,
       &.is-selected {
         color: rgba(0, 0, 0, 0.8);
         background: #e5e5e5;

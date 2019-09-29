@@ -44,7 +44,7 @@ gulp.task("editor", () => {
             name: 'dui.mdeditor',//包名称
             sourcemap: false//是否有sourcemarp
         }))
-        // .pipe(uglify())
+        .pipe(uglify())
         .pipe(rename({
             basename:'dui-mdeditor',
             suffix: '.min',

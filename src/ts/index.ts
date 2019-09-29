@@ -57,7 +57,7 @@ class mdEditor {
                 autoCloseBrackets         : true,//自动闭合符号
                 showTrailingSpace         : true,//显示选中行的样式
             },// 编辑器配置
-            toolbar:['bold','italic','header','divider'],
+            toolbar:['bold','italic','header','divider','strikethrough','mark'],
             langs:{
                 inset:{
                     bold:'粗体',
@@ -152,6 +152,18 @@ class mdEditor {
             children:[
                 
             ]
+        },
+        {
+            name:'strikethrough',//按钮的唯一标识
+            icon:'dui-icon-strikethrough',// 图标
+            title:'删除线 ('+runKey+'+ ~)',//提示信息
+            handler:_this.strikethrough,//回调方法
+        },
+        {
+            name:'mark',//按钮的唯一标识
+            icon:'dui-icon-mark',// 图标
+            title:'标记 ('+runKey+'+ M)',//提示信息
+            handler:_this.mark,//回调方法
         }];
         let cur = [];
         // 组合当前应该有的
@@ -218,13 +230,7 @@ class mdEditor {
         insetValue(this.editorView,'*','*',this.config.langs.inset.italic);
     }
     /**
-     * 下划线
-     */
-    underline(){
-        insetValue(this.editorView,'++','++',this.config.langs.inset.underline);
-    }
-    /**
-     * 下划线
+     * 删除线
      */
     strikethrough(){
         insetValue(this.editorView,'~~','~~',this.config.langs.inset.strikethrough);
@@ -233,7 +239,7 @@ class mdEditor {
      * 标记
      */
     mark(){
-        insetValue(this.editorView,'==','==',this.config.langs.inset.strikethrough);
+        insetValue(this.editorView,'==','==',this.config.langs.inset.mark);
     }
     /**
      * 下划线
@@ -311,6 +317,7 @@ export interface insetLangConfig{
     italic:string
     underline:string
     strikethrough:string
+    mark:string
     quote:string
     listOl:string
     listUl:string

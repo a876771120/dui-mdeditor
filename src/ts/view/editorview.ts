@@ -11,7 +11,7 @@ export default class EditorView {
     /**
      * @param state 状态
      */
-    state:Object
+    state:EditorState
     /**
      * @param id 当前编辑器的唯一编号
      */
@@ -187,4 +187,12 @@ export interface EditorViewConfig{
     fullscreen?:Boolean 
     catalog?:Boolean 
     codemirrorConfig?:CodeMirror.EditorConfiguration 
+}
+
+export interface EditorState{
+    preview:Boolean,// 设置预览状态
+    subfield:Boolean,// 设置分栏状态
+    readmodel:Boolean,// 阅读模式
+    fullscreen:Boolean,// 全屏模式
+    catalog:Boolean // 目录
 }

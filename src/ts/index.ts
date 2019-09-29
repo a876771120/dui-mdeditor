@@ -2,18 +2,21 @@ import { getMdEditorPath, extend, each } from "./utils";
 import EditorView, { EditorViewConfig } from "./view/editorview";
 import CodeMirror from "codemirror"
 import { insetValue } from "./command";
-import { controlbar } from "./controlbar";
+import { toolbar } from "./toolbar";
+import { removeClass, addClass } from "./utils/dom";
 class mdEditor {
     // 要实例化元素
     el:HTMLTextAreaElement
     // 编辑器视图
     editorView:EditorView
     // 控制栏
-    controlbar:controlbar
+    toolbar:toolbar
     // 输入的初始化参数
     options:mdEditorConfig
     // 整合后的配置信息
     config:mdEditorConfig
+    // 判断是否是苹果
+    isMac:Boolean
     /**
      * 实例化方法
      * @param options 初始化参数
@@ -54,9 +57,7 @@ class mdEditor {
                 autoCloseBrackets         : true,//自动闭合符号
                 showTrailingSpace         : true,//显示选中行的样式
             },// 编辑器配置
-            toolbar:[
-                
-            ],
+            toolbar:['bold','italic','header','divider'],
             langs:{
                 inset:{
                     bold:'粗体',
@@ -102,8 +103,8 @@ class mdEditor {
      * 初始化快捷键
      */
     _initKeyMap(){
-        let mac = ((CodeMirror as any).keyMap as any).default == ((CodeMirror as any).keyMap as any).macDefault;
-        let _this = this,runKey = (mac ? "Cmd" : "Ctrl"),extraKeys={};
+        this.isMac = ((CodeMirror as any).keyMap as any).default == ((CodeMirror as any).keyMap as any).macDefault;
+        let _this = this,runKey = (this.isMac ? "Cmd" : "Ctrl"),extraKeys={};
         extraKeys[runKey+'-B'] = _this.bold;
         extraKeys[runKey+'-I'] = _this.italic;
         extraKeys[runKey+'-U'] = _this.underline;
@@ -112,6 +113,7 @@ class mdEditor {
         extraKeys[runKey] = 'autocomplete';
         extraKeys[runKey+'-Z'] = _this.undo;
         extraKeys[runKey+'-Y'] = _this.redo;
+        extraKeys['F9'] = _this.preview;
         extraKeys['F11'] = 'readmodel';
         extraKeys['F10'] = 'fullscreen';
         // 设置一层代理
@@ -127,17 +129,59 @@ class mdEditor {
      * 初始化工具栏
      */
     _initControlbar(){
-        let defaultItems = [
-            
-        ];
-
-
-
-
-
-
-
-        
+        let _this = this;
+        if(this.config.toolbar===false || (this.config.toolbar as []).length==0) return;
+        let runKey = (this.isMac ? "Cmd" : "Ctrl")
+        // 默认的按钮
+        let defaultItems = [{
+            name:'bold',//按钮的唯一标识
+            icon:'dui-icon-bold',// 图标
+            title:'粗体 ('+runKey+'+ B)',//提示信息
+            handler:_this.bold,//回调方法
+        },
+        {
+            name:'italic',//按钮的唯一标识
+            icon:'dui-icon-italic',// 图标
+            title:'斜体 ('+runKey+'+ I)',//提示信息
+            handler:_this.italic,//回调方法
+        },
+        {
+            name:'header',//按钮的唯一标识
+            icon:'dui-icon-header',// 图标
+            type:'dropdown',
+            children:[
+                
+            ]
+        }];
+        let cur = [];
+        // 组合当前应该有的
+        each(this.config.toolbar,function(i,newItem){
+            if(newItem && typeof newItem==="object"){
+                cur.push(newItem);
+                return;
+            }
+            if(newItem && typeof newItem==="string" && newItem=='divider'){
+                cur.push(newItem);
+                return;
+            }
+            each(defaultItems,function(j,defaultItem){
+                if(newItem && typeof newItem==="string" && newItem==defaultItem.name){
+                    cur.push(defaultItem);
+                    return;
+                }
+            })
+        })
+        /**
+         * 工具栏回调函数
+         */
+        function clickFn(e,name){
+            if(_this.toolbar.buttons.has(name) && _this.toolbar.buttons.get(name).handler
+            && typeof _this.toolbar.buttons.get(name).handler==="function"){
+                _this.toolbar.buttons.get(name).handler.call(_this,_this.editorView.cm,e);
+            }
+        }
+        // 创建一个工具条
+        this.toolbar = new toolbar(this.editorView,cur,clickFn);
     }
     /**
      * 动态添加快捷键
@@ -220,6 +264,20 @@ class mdEditor {
      */
     redo(){
         this.editorView.cm.getDoc().redo();
+    }
+    /**
+     * 预览或者编辑
+     */
+    preview(){
+        if(this.editorView.state.preview===true){
+            //当前处于预览状态
+            this.editorView.state.preview = false;
+            removeClass(this.editorView.panelContainer,'preview-selected')
+        }else{
+            //编辑状态
+            this.editorView.state.preview = true;
+            addClass(this.editorView.panelContainer,'preview-selected')
+        }
     }
 }
 
